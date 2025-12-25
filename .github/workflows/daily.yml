@@ -1,0 +1,30 @@
+name: Daily Tarot Card
+
+on:
+  schedule:
+    - cron: "0 4 * * *"   # каждый день в 7:00 МСК
+  workflow_dispatch:
+
+jobs:
+  tarot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run tarot script
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_IDS: ${{ secrets.CHAT_IDS }}
+        run: |
+          python daily_card.py
