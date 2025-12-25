@@ -15,27 +15,19 @@ dp = Dispatcher()
 @dp.message(Command("start"))
 async def start(message: types.Message):
     await message.answer(
-        "✨ Привет!\n"
-        "Я бот «Карта дня Таро».\n\n"
-        "Напиши /card, чтобы получить свою карту дня 🔮"
+        "🌙 Привет.\n\n"
+        "Я — бот «Карта дня Таро».\n\n"
+        "Каждое утро в 7:00 я присылаю одну карту — "
+        "спокойное послание и направление на день ✨\n\n"
+        "Ничего нажимать не нужно.\n"
+        "Просто оставайся здесь 🤍"
     )
-
-@dp.message(Command("card"))
-async def card(message: types.Message):
-    card = random.choice(TAROT_CARDS)
-
-    text = (
-        f"🔮 *Карта дня: {card['name']}*\n\n"
-        f"{card['meaning']}\n\n"
-        "_Прими это как знак, не как приговор._"
-    )
-
-    await message.answer(text, parse_mode="Markdown")
 
 async def main():
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
