@@ -7,16 +7,10 @@ from aiogram.filters import Command
 import os
 TOKEN = os.getenv("BOT_TOKEN")
 
+from cards import TAROT_CARDS
+
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
-
-tarot_cards = [
-    {"name": "Шут", "meaning": "Новые начала, спонтанность, доверие к жизни."},
-    {"name": "Маг", "meaning": "Сила воли, инициатива, умение влиять на ситуацию."},
-    {"name": "Верховная Жрица", "meaning": "Интуиция, скрытые знания, внутренний голос."},
-    {"name": "Императрица", "meaning": "Забота, рост, изобилие и творчество."},
-    {"name": "Император", "meaning": "Структура, стабильность, контроль и ответственность."}
-]
 
 @dp.message(Command("start"))
 async def start(message: types.Message):
@@ -28,8 +22,14 @@ async def start(message: types.Message):
 
 @dp.message(Command("card"))
 async def card(message: types.Message):
-    card = random.choice(tarot_cards)
-    text = f"🔮 *Карта дня:* {card['name']}\n\n{card['meaning']}"
+    card = random.choice(TAROT_CARDS)
+
+    text = (
+        f"🔮 *Карта дня: {card['name']}*\n\n"
+        f"{card['meaning']}\n\n"
+        "_Прими это как знак, не как приговор._"
+    )
+
     await message.answer(text, parse_mode="Markdown")
 
 async def main():
@@ -37,4 +37,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
