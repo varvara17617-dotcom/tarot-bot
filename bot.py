@@ -14,6 +14,14 @@ dp = Dispatcher()
 
 @dp.message(Command("start"))
 async def start(message: types.Message):
+    chat_id = str(message.chat.id)
+
+    with open("users.txt", "a+", encoding="utf-8") as f:
+        f.seek(0)
+        users = f.read().splitlines()
+        if chat_id not in users:
+            f.write(chat_id + "\n")
+
     await message.answer(
         "🌙 Привет.\n\n"
         "Я — бот «Карта дня Таро».\n\n"
@@ -23,11 +31,13 @@ async def start(message: types.Message):
         "Просто оставайся здесь 🤍"
     )
 
+
 async def main():
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
 
